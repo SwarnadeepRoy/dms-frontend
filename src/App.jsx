@@ -5,6 +5,9 @@ import Home from './pages/Home.jsx';
 import NotFound from './pages/NotFound.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import { SignedIn, SignedOut } from '@clerk/clerk-react';
+import Pricing from './pages/Pricing.jsx';
+import About from './pages/About.jsx';
+import Footer from './components/Footer';
 
 const App = () => {
   return (
@@ -27,9 +30,12 @@ const App = () => {
                 </>
               } 
             />
+            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/about" element={<About />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
+        <Footer />
       </div>
     </Router>
   );

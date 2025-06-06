@@ -1,6 +1,22 @@
 import { Link } from 'react-router-dom';
+import { useClerk } from '@clerk/clerk-react';
+import { useNavigate } from 'react-router-dom';
+
 
 const Home = () => {
+
+    const { openSignIn } = useClerk();
+    const navigate = useNavigate();
+
+    const handleGetStarted = () => {
+        // If user is not signed in, open the sign-in modal
+        // After successful sign-in, they'll be redirected to the dashboard
+        openSignIn({
+            afterSignInUrl: '/dashboard',
+            afterSignUpUrl: '/dashboard'
+        });
+    };
+
     return (
         <div className="relative min-h-screen">
             {/* Background gradient */}
@@ -17,14 +33,14 @@ const Home = () => {
                         <p className="mt-6 text-lg leading-8 text-gray-300">
                             Make an account and start managing your files in less than a minute.
                         </p>
-                        
+
                         <div className="mt-10 flex flex-col sm:flex-row items-center gap-4">
-                            <Link
-                                to="/dashboard"
+                            <button
+                                onClick={handleGetStarted}
                                 className="w-full sm:w-auto rounded-md bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 text-center"
                             >
                                 Get started
-                            </Link>
+                            </button>
                             <a
                                 href="#"
                                 className="text-sm font-semibold leading-6 text-white hover:text-indigo-200 transition-colors"
@@ -38,7 +54,7 @@ const Home = () => {
                                 to="/nonexistent"
                                 className="text-indigo-300 hover:text-white hover:underline transition-colors z-10 inline-block"
                             >
-                                Click here to test 404 page
+                                {/* Click here to test 404 page */}
                             </Link>
                         </div>
                     </div>
