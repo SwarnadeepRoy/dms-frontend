@@ -67,7 +67,7 @@ const Footer = () => {
   return (
     <footer className="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
-        <div className="xl:grid xl:grid-cols-3 justify-between xl:gap-8">
+        <div className="flex xl:grid xl:grid-cols-3 xl:gap-60">
           {/* Branding and tagline */}
           <div className="space-y-4 xl:col-span-1">
             <div className="flex items-center">
@@ -151,6 +151,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
+
 
         {/* Bottom bar */}
         <div className="mt-8 border-t border-gray-200 dark:border-gray-800 pt-8 md:flex md:items-center md:justify-between">
