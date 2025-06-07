@@ -580,8 +580,13 @@ const Dashboard = () => {
                                             variant="outline"
                                             className="w-full justify-start flex items-center"
                                         >
-                                            <Upload className="mr-2 h-4 w-4" />
-                                            Upload Files
+                                             <Upload className="mr-2 h-4 w-4" />
+                  <span>Upload Files</span>
+                  <input
+                    type="file"
+                    onChange={(e) => uploadfile(e.target.files[0])}
+                    className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+                  />
                                         </Button>
                                         <Button
                                             variant="outline"
