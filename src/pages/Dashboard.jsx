@@ -493,6 +493,88 @@ const Dashboard = () => {
                     )}
 
                     {/* Table and Actions (Dashboard, My Documents & Recent) */}
+                    {selectedPage === 'Recent' && (
+                        <div className="grid gap-6 lg:grid-cols-3 mx-6 mt-10">
+                            <Card className="lg:col-span-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                                <CardHeader>
+                                    <CardTitle className="flex items-center justify-between">
+                                        <span>Recent Documents</span>
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="rounded-md border border-gray-200 dark:border-gray-700 overflow-x-auto">
+                                        <Table>
+                                            <TableHeader>
+                                                <TableRow>
+                                                    <TableHead className="text-gray-700 dark:text-gray-300">
+                                                        Name
+                                                    </TableHead>
+                                                    <TableHead className="text-gray-700 dark:text-gray-300">
+                                                        Type
+                                                    </TableHead>
+                                                    <TableHead className="text-gray-700 dark:text-gray-300">
+                                                        Last Modified
+                                                    </TableHead>
+                                                    <TableHead className="w-[100px] text-gray-700 dark:text-gray-300 text-center">
+                                                        Actions
+                                                    </TableHead>
+                                                </TableRow>
+                                            </TableHeader>
+                                            <TableBody>
+                                                {mockDocuments.map((doc) => (
+                                                    <TableRow key={doc.id} className="align-middle">
+                                                        <TableCell className="font-medium flex items-center text-gray-900 dark:text-white whitespace-nowrap">
+                                                            <FileText className="h-5 w-5 text-indigo-600 mr-2 flex-shrink-0" />
+                                                            {doc.name}
+                                                        </TableCell>
+                                                        <TableCell className="whitespace-nowrap">
+                                                            <Badge variant="outline">{doc.type}</Badge>
+                                                        </TableCell>
+                                                        <TableCell className="text-gray-900 dark:text-white whitespace-nowrap">
+                                                            {doc.modified}
+                                                        </TableCell>
+                                                        <TableCell className="text-center">
+                                                            <DropdownMenu>
+                                                                <DropdownMenuTrigger asChild>
+                                                                    <Button
+                                                                        variant="ghost"
+                                                                        className="h-8 w-8 p-0"
+                                                                    >
+                                                                        <MoreVertical className="h-4 w-4" />
+                                                                    </Button>
+                                                                </DropdownMenuTrigger>
+                                                                <DropdownMenuContent align="end" className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                                                                    <DropdownMenuItem>
+                                                                        <a href={doc.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                                                                            <Download className="mr-2 h-4 w-4" />
+                                                                            Download
+                                                                        </a>
+                                                                    </DropdownMenuItem>
+                                                                    <DropdownMenuItem onClick={() => handleShareClick(doc.url)}>
+                                                                        <div className="flex items-center gap-2 cursor-pointer">
+                                                                            <Share2 className="mr-2 h-4 w-4" />
+                                                                            Share
+                                                                        </div>
+                                                                    </DropdownMenuItem>
+                                                                    <DropdownMenuItem 
+                                                                            className="text-red-600 focus:bg-red-50 dark:focus:bg-red-900/20"
+                                                                            onClick={() => deleteDocument(doc.file_id)}
+                                                                        >
+                                                                            <Trash2 className="mr-2 h-4 w-4" />
+                                                                            Delete
+                                                                        </DropdownMenuItem>
+                                                                </DropdownMenuContent>
+                                                            </DropdownMenu>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </div>
+                    )}
                     {(selectedPage === 'Dashboard' || selectedPage === 'My Documents') && (
                         <div className="grid gap-6 lg:grid-cols-3 mx-6 mt-10">
                             <Card className="lg:col-span-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
@@ -556,15 +638,6 @@ const Dashboard = () => {
                                                                             Share
                                                                         </div>
                                                                     </DropdownMenuItem>
-
-                                                                    
-                                                                    
-                                                                    {/* <DropdownMenuItem >
-                                                                        <a href={doc.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
-                                                                            <Share2 className="mr-2 h-4 w-4" />
-                                                                            Share
-                                                                        </a>
-                                                                    </DropdownMenuItem> */}
                                                                     <DropdownMenuItem 
                                                                             className="text-red-600 focus:bg-red-50 dark:focus:bg-red-900/20"
                                                                             onClick={() => deleteDocument(doc.file_id)}

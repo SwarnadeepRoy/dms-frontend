@@ -42,7 +42,7 @@ const Home = () => {
                                 Get started
                             </button>
                             <a
-                                href="#"
+                                href="/about"
                                 className="text-sm font-semibold leading-6 text-white hover:text-indigo-200 transition-colors"
                             >
                                 Learn more <span aria-hidden="true">→</span>
