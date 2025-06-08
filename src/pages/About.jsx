@@ -29,31 +29,38 @@ const scrollTo = (id) => {
 
 const teamMembers = [
   {
-    name: 'Alex Johnson',
-    role: 'CEO & Founder',
-    bio: 'Document management expert with 10+ years in enterprise solutions',
-    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&auto=format&fit=crop&q=60',
+    name: 'Rounak Sen',
+    role: 'Member',
+    bio: '',
+    image: '../src/assets/Rounak.jpg',
     linkedin: '#'
   },
   {
-    name: 'Sarah Chen',
-    role: 'CTO',
-    bio: 'Tech visionary specializing in cloud infrastructure',
-    image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=200&auto=format&fit=crop&q=60',
+    name: 'Swarnadeep Roy',
+    role: 'Member',
+    bio: '',
+    image: '../src/assets/Swarna.jpg',
     linkedin: '#'
   },
   {
-    name: 'Michael Rodriguez',
-    role: 'Head of Product',
-    bio: 'Passionate about creating intuitive user experiences',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=60',
+    name: 'Ankur Sinha Roy',
+    role: 'Team Lead',
+    bio: '',
+    image: '../src/assets/Ankur.jpg',
     linkedin: '#'
   },
   {
-    name: 'Priya Patel',
-    role: 'Lead Developer',
-    bio: 'Full-stack developer with a focus on security',
-    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&auto=format&fit=crop&q=60',
+    name: 'Gautam Nag',
+    role: 'Member',
+    bio: '',
+    image: '../src/assets/Gautam.jpg',
+    linkedin: '#'
+  },
+  {
+    name: 'Debjit Mukhopadhyay',
+    role: 'Member',
+    bio: '',
+    image: '../src/assets/Debjit.jpg',
     linkedin: '#'
   }
 ];
@@ -140,10 +147,15 @@ const About = () => {
             <div className="mb-12 lg:mb-0">
               <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">Our Story</h2>
               <p className="mt-6 text-lg text-gray-500">
-                Founded in 2022, our Document Management System was born out of a simple idea: document management should be secure, simple, and accessible to businesses of all sizes.
+              <strong>Vault</strong> is a secure document management website built
+            with Next.js, ShadCN library TypeScript, and Firebase Firestore. It
+            offers Clerk authentication for user security. Users can upload,
+            store, view, and edit their documents directly on the platform. 
               </p>
               <p className="mt-4 text-lg text-gray-500">
-                Today, we serve thousands of businesses worldwide, helping them reduce paper clutter, enhance security, and collaborate seamlessly in a digital-first world.
+              The intuitive interface allows easy document management and access,
+            ensuring documents are safely stored and readily available when
+            needed.
               </p>
               <div className="mt-8">
                 <div className="inline-flex rounded-md shadow">
@@ -160,7 +172,7 @@ const About = () => {
             <div className="relative">
               <img
                 className="w-full rounded-lg shadow-xl ring-1 ring-black ring-opacity-5"
-                src="https://images.unsplash.com/photo-1522071820081-009c2f1c8f2f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+                src="https://images.unsplash.com/photo-1532619675605-1ede6c2ed2b0?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGNvbGxhYm9yYXRpb258ZW58MHx8MHx8fDA%3D"
                 alt="Team collaborating"
               />
             </div>
@@ -196,13 +208,13 @@ const About = () => {
       <section id="team"  className="py-16 bg-white sm:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">Our Leadership Team</h2>
+            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">Our Team</h2>
             <p className="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
               The brilliant minds behind our success
             </p>
           </div>
 
-          <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-5">
             {teamMembers.map((member, index) => (
               <div key={index} className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-200">
                 <img 
@@ -232,7 +244,7 @@ const About = () => {
         </div>
       </section>
 
-      
+
       {/* CTA Section */}
       <section className="bg-indigo-700">
         <div className="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8 text-center">

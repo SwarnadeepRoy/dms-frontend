@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react';
+import { Zap } from 'lucide-react';
 
 const Header = () => {
   return (
@@ -11,6 +12,7 @@ const Header = () => {
           <Link to="/" className="group -m-1.5 p-1.5">
             <span className="text-2xl font-bold text-white">
               <div className="flex items-center gap-2">
+              <Zap className="h-8 w-8 text-indigo-600" />
                  Vault
               </div>
               <span className="block h-0.5 w-0 group-hover:w-full bg-white transition-all duration-300"></span>
