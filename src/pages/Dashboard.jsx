@@ -58,7 +58,7 @@ const metrics = [
     },
     {
         title: "Storage Used",
-        value: "100 MB / 1 GB",
+        value: "1.3MB/100MB",
         icon: <HardDrive className="h-5 w-5 text-emerald-600" />,
         change: "10% of total",
     },
