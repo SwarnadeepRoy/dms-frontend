@@ -1,19 +1,24 @@
 import React, { useEffect, useState, useMemo } from "react";
-import {
-    FileText,
-    Folder,
-    Share2,
-    Trash2,
-    Upload,
-    Download,
-    MoreVertical,
-    Clock,
-    HardDrive,
-    Users,
-    ChevronLeft,
-    ChevronRight,
-    Menu,
-    X,
+
+import { 
+    FileText, 
+    Folder, 
+    Share2, 
+    Trash2, 
+    Upload, 
+    Download, 
+    MoreVertical, 
+    Clock, 
+    HardDrive, 
+    Users, 
+    ChevronLeft, 
+    ChevronRight, 
+    Menu, 
+    X, 
+    Copy, 
+    Star,
+    Heart,
+    HeartOff,
 } from "lucide-react";
 import {
     Card,
@@ -31,7 +36,9 @@ import {
     TableCell,
     TableBody,
 } from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -89,6 +96,10 @@ const Dashboard = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [documents, setDocuments] = useState([]);
+    const [shareModalOpen, setShareModalOpen] = useState(false);
+    const [currentShareUrl, setCurrentShareUrl] = useState('');
+
+
 
     const mockDocuments = [
         {
@@ -128,7 +139,7 @@ const Dashboard = () => {
             shared: true,
         },
     ];
-    
+
 
     useEffect(() => {
         getDocuments(); // Fetch documents when component mounts
@@ -136,7 +147,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         axios.get(`${import.meta.env.VITE_BACKEND_URL}/member/${encodeURIComponent(user.fullName)}`)
-            .then(response => {console.log(response.data); return response.data})
+            .then(response => { console.log(response.data); return response.data })
             .then(data => setUserId(data[0].user_id))
             .catch(error => {
                 console.error("Error fetching documents:", error);
@@ -153,8 +164,20 @@ const Dashboard = () => {
                         console.error("Error fetching documents:", error);
                     });
             });
-            // console.log(userId);
+        // console.log(userId);
     }, []);
+
+   
+    const handleShareClick = (url) => {
+        setCurrentShareUrl(url);
+        setShareModalOpen(true);
+    };
+
+    const copyToClipboard = () => {
+        navigator.clipboard.writeText(currentShareUrl);
+        // You might want to add a toast notification here
+        setShareModalOpen(false);
+    };
 
     const totalBytes = useMemo(() => {
         if (!documents || documents.length === 0) return 0;
@@ -185,6 +208,16 @@ const Dashboard = () => {
         return parseFloat((bytes / Math.pow(k, i)).toFixed(decimals)) + ' ' + sizes[i];
     }
 
+    function getUppercase(str) {
+        if (!str || str === null || str === undefined || str === "") return 'N/A';
+
+        const lastSlashIndex = str.lastIndexOf('/');
+        if (lastSlashIndex === -1) {
+            return str.toUpperCase();
+        }
+        return str.substring(lastSlashIndex + 1).toUpperCase();
+    }
+
     const getDocuments = () => {
         console.log("Fetching documents...");
         axios.get(`${import.meta.env.VITE_BACKEND_URL}/files`)
@@ -196,6 +229,36 @@ const Dashboard = () => {
                 console.error("Error fetching documents:", error);
             });
     }
+
+    const deleteDocument = (docId) => {
+        if (window.confirm('Are you sure you want to delete this document? This action cannot be undone.')) {
+            axios.delete(`${import.meta.env.VITE_BACKEND_URL}/file/${docId}`)
+                .then(response => {
+                    console.log("Document deleted successfully:", response.data);
+                    alert('Document deleted successfully.');
+                    // Refresh the documents list after successful deletion
+                    getDocuments();
+                })
+                .catch(error => {
+                    console.error("Error deleting document:", error);
+                    alert('Failed to delete document. Please try again.');
+                });
+        }
+    }
+
+    // const toggleFavorite = (docId, currentStatus) => {
+    //     const newStatus = !currentStatus;
+    //     axios.patch(`${import.meta.env.VITE_BACKEND_URL}/files/${docId}`, { is_favorite: newStatus })
+    //         .then(response => {
+    //             console.log("Document favorite status updated:", response.data);
+    //             // Refresh the documents list to show the updated status
+    //             getDocuments();
+    //         })
+    //         .catch(error => {
+    //             console.error("Error updating favorite status:", error);
+    //             alert('Failed to update favorite status. Please try again.');
+    //         });
+    // }
 
     function uploadfile(file) {
         const filename = file.name;
@@ -216,7 +279,42 @@ const Dashboard = () => {
             });
     }
     return (
-        <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
+        <div className="relative flex h-screen bg-gray-50 dark:bg-gray-900">
+            {/* Share Modal */}
+            {shareModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                    <div className="absolute inset-0" onClick={() => setShareModalOpen(false)}></div>
+                    <div className="relative w-full max-w-md dark:text-white mx-4 bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xl z-10">
+                        <div className="flex justify-between items-center mb-4">
+                            <h3 className="text-lg font-medium">Share Document</h3>
+                            <button 
+                                onClick={() => setShareModalOpen(false)}
+                                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                            >
+                                <X className="h-5 w-5" />
+                            </button>
+                        </div>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                            Share this link with others to give them access to the document.
+                        </p>
+                        <div className="flex gap-2">
+                            <input
+                                type="text"
+                                value={currentShareUrl}
+                                readOnly
+                                className="flex-1 px-3 py-2 border rounded-md bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-sm"
+                            />
+                            <button
+                                onClick={copyToClipboard}
+                                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm flex items-center gap-2"
+                            >
+                                <Copy className="h-4 w-4" />
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
             {/* Sidebar - Desktop */}
             <aside
                 className={`hidden md:flex transition-all duration-300 bg-white dark:bg-gray-800 shadow-md flex-col ${isCollapsed ? "w-20" : "w-64"
@@ -227,7 +325,7 @@ const Dashboard = () => {
                     {!isCollapsed ? (
                         <div className="text-xl font-bold flex items-center space-x-2 text-gray-900 dark:text-white">
                             <Folder className="h-6 w-6 text-indigo-600" />
-                            <span>Vault</span>
+                            <span>SideBar</span>
                         </div>
                     ) : (
                         <Folder className="h-6 w-6 text-indigo-600 mx-auto" />
@@ -275,9 +373,9 @@ const Dashboard = () => {
             >
                 <div className="flex h-16 items-center justify-between px-4 border-b border-gray-200 dark:border-gray-700">
                     <div className="flex items-center">
-                        <Folder className="h-6 w-6 text-indigo-600" />
+                    <Folder className="h-6 w-6 text-indigo-600" />
                         <span className="ml-2 text-xl font-bold text-gray-900 dark:text-white">
-                            Vault
+                            SideBar
                         </span>
                     </div>
                     <button
@@ -401,13 +499,6 @@ const Dashboard = () => {
                                 <CardHeader>
                                     <CardTitle className="flex items-center justify-between">
                                         <span>Recent Documents</span>
-                                        <Button
-                                            variant="ghost"
-                                            size="sm"
-                                            className="flex items-center"
-                                        >
-                                            View All
-                                        </Button>
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
@@ -459,16 +550,32 @@ const Dashboard = () => {
                                                                             Download
                                                                         </a>
                                                                     </DropdownMenuItem>
-                                                                    <DropdownMenuItem>
+                                                                    <DropdownMenuItem onClick={() => handleShareClick(doc.url)}>
+                                                                        <div className="flex items-center gap-2 cursor-pointer">
+                                                                            <Share2 className="mr-2 h-4 w-4" />
+                                                                            Share
+                                                                        </div>
+                                                                    </DropdownMenuItem>
+
+                                                                    
+                                                                    
+                                                                    {/* <DropdownMenuItem >
                                                                         <a href={doc.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                                                                             <Share2 className="mr-2 h-4 w-4" />
                                                                             Share
                                                                         </a>
-                                                                    </DropdownMenuItem>
-                                                                    <DropdownMenuItem className="text-red-600">
+                                                                    </DropdownMenuItem> */}
+                                                                    <DropdownMenuItem 
+                                                                            className="text-red-600 focus:bg-red-50 dark:focus:bg-red-900/20"
+                                                                            onClick={() => deleteDocument(doc.file_id)}
+                                                                        >
+                                                                            <Trash2 className="mr-2 h-4 w-4" />
+                                                                            Delete
+                                                                        </DropdownMenuItem>
+                                                                    {/* <DropdownMenuItem className="text-red-600">
                                                                         <Trash2 className="mr-2 h-4 w-4" />
                                                                         Delete
-                                                                    </DropdownMenuItem>
+                                                                    </DropdownMenuItem> */}
                                                                 </DropdownMenuContent>
                                                             </DropdownMenu>
                                                         </TableCell>
@@ -526,7 +633,7 @@ const Dashboard = () => {
                                                                 {doc.file_name}
                                                             </TableCell>
                                                             <TableCell className="whitespace-nowrap">
-                                                                <Badge variant="outline">{doc.file_type || 'N/A'}</Badge>
+                                                                <Badge variant="outline">{getUppercase(doc.file_type) || 'N/A'}</Badge>
                                                             </TableCell>
                                                             <TableCell className="text-gray-900 dark:text-white whitespace-nowrap">
                                                                 {formatFileSize(doc.file_size_bytes) || 'N/A'}
@@ -548,13 +655,38 @@ const Dashboard = () => {
                                                                                 Download
                                                                             </a>
                                                                         </DropdownMenuItem>
-                                                                        <DropdownMenuItem>
+                                                                        <DropdownMenuItem onClick={() => handleShareClick(doc.file_path)}>
+                                                                        <div className="flex items-center gap-2 cursor-pointer">
+                                                                            <Share2 className="mr-2 h-4 w-4" />
+                                                                            Share
+                                                                        </div>
+                                                                    </DropdownMenuItem>
+                                                                        {/* <DropdownMenuItem>
                                                                             <a href={doc.file_path} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2" >
                                                                                 <Share2 className="mr-2 h-4 w-4" />
                                                                                 Share
                                                                             </a>
-                                                                        </DropdownMenuItem>
-                                                                        <DropdownMenuItem className="text-red-600">
+                                                                        </DropdownMenuItem> */}
+                                                                        {/* <DropdownMenuItem 
+                                                                            className="text-amber-600 focus:bg-amber-50 dark:focus:bg-amber-900/20"
+                                                                            onClick={() => toggleFavorite(doc.file_id, doc.is_favorite)}
+                                                                        >
+                                                                            {doc.is_favorite ? (
+                                                                                <>
+                                                                                    <HeartOff className="mr-2 h-4 w-4" />
+                                                                                    Remove from Favorites
+                                                                                </>
+                                                                            ) : (
+                                                                                <>
+                                                                                    <Heart className="mr-2 h-4 w-4" />
+                                                                                    Add to Favorites
+                                                                                </>
+                                                                            )}
+                                                                        </DropdownMenuItem> */}
+                                                                        <DropdownMenuItem 
+                                                                            className="text-red-600 focus:bg-red-50 dark:focus:bg-red-900/20"
+                                                                            onClick={() => deleteDocument(doc.file_id)}
+                                                                        >
                                                                             <Trash2 className="mr-2 h-4 w-4" />
                                                                             Delete
                                                                         </DropdownMenuItem>
@@ -580,13 +712,15 @@ const Dashboard = () => {
                                             variant="outline"
                                             className="w-full justify-start flex items-center"
                                         >
-                                             <Upload className="mr-2 h-4 w-4" />
-                  <span>Upload Files</span>
-                  <input
-                    type="file"
-                    onChange={(e) => uploadfile(e.target.files[0])}
-                    className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
-                  />
+                                            <label className="flex items-center cursor-pointer">
+                                                <Upload className="mr-2 h-4 w-4" />
+                                                <span>Upload Files</span>
+                                                <input
+                                                    type="file"
+                                                    onChange={(e) => uploadfile(e.target.files[0])}
+                                                    className="hidden"
+                                                />
+                                            </label>
                                         </Button>
                                         <Button
                                             variant="outline"
