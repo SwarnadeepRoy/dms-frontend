@@ -661,28 +661,6 @@ const Dashboard = () => {
                                                                             Share
                                                                         </div>
                                                                     </DropdownMenuItem>
-                                                                        {/* <DropdownMenuItem>
-                                                                            <a href={doc.file_path} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2" >
-                                                                                <Share2 className="mr-2 h-4 w-4" />
-                                                                                Share
-                                                                            </a>
-                                                                        </DropdownMenuItem> */}
-                                                                        {/* <DropdownMenuItem 
-                                                                            className="text-amber-600 focus:bg-amber-50 dark:focus:bg-amber-900/20"
-                                                                            onClick={() => toggleFavorite(doc.file_id, doc.is_favorite)}
-                                                                        >
-                                                                            {doc.is_favorite ? (
-                                                                                <>
-                                                                                    <HeartOff className="mr-2 h-4 w-4" />
-                                                                                    Remove from Favorites
-                                                                                </>
-                                                                            ) : (
-                                                                                <>
-                                                                                    <Heart className="mr-2 h-4 w-4" />
-                                                                                    Add to Favorites
-                                                                                </>
-                                                                            )}
-                                                                        </DropdownMenuItem> */}
                                                                         <DropdownMenuItem 
                                                                             className="text-red-600 focus:bg-red-50 dark:focus:bg-red-900/20"
                                                                             onClick={() => deleteDocument(doc.file_id)}
@@ -767,20 +745,28 @@ const Dashboard = () => {
                     )}
 
                     {selectedPage === "Shared" && (
-                        <div className="text-lg text-gray-900 dark:text-white p-6">
-                            Shared Files section coming soon...
+                        <div className="flex flex-col items-center justify-center h-full py-16">
+                            <div className="p-6 mb-4">
+                                <Share2 className="h-50 w-50 text-gray-400 mx-auto" />
+                            </div>
+                            <h3 className="text-lg font-medium text-gray-900 dark:text-white">No Shared Files</h3>
+                            <p className="text-gray-500 dark:text-gray-400">Files shared with you will appear here</p>
                         </div>
                     )}
 
-                    {selectedPage === "Recent" && (
+                    {/* {selectedPage === "Recent" && (
                         <div className="text-lg text-gray-900 dark:text-white p-6">
                             Recent Activity section coming soon...
                         </div>
-                    )}
+                    )} */}
 
                     {selectedPage === "Trash" && (
-                        <div className="text-lg text-gray-900 dark:text-white p-6">
-                            Trash section coming soon...
+                        <div className="flex flex-col items-center justify-center h-full py-16">
+                            <div className="p-6 mb-4">
+                                <Trash2 className="h-50 w-50 text-gray-400" />
+                            </div>
+                            <h3 className="text-xl font-medium text-gray-700 dark:text-gray-300">Trash is Empty</h3>
+                            <p className="text-gray-500 dark:text-gray-400 mt-2">Items moved to trash will appear here</p>
                         </div>
                     )}
                 </main>

@@ -10,7 +10,9 @@ const Header = () => {
         <div className="flex lg:flex-1">
           <Link to="/" className="group -m-1.5 p-1.5">
             <span className="text-2xl font-bold text-white">
-              Vault
+              <div className="flex items-center gap-2">
+                 Vault
+              </div>
               <span className="block h-0.5 w-0 group-hover:w-full bg-white transition-all duration-300"></span>
             </span>
           </Link>
