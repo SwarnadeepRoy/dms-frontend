@@ -115,7 +115,7 @@ const Dashboard = () => {
             id: 2,
             name: "Project-Proposal.docx",
             type: "DOCX",
-            url: `http://collaborative-text-editor-six.vercel.app?fileId=ccfdc52e-5dfa-4f80-b67c-1c1307b1ce7a&userId=${userId}&workspaceId=f2f8cc21-3970-4a25-bf41-918857571645&filename=new-document`,
+            url: `http://collaborative-text-editor-six.vercel.app?fileId=ccfdc52e-5dfa-4f80-b67c-1c1307b1ce7a&userId=${userId}&workspaceId=f16d491a-4a01-48d6-8987-000e8d19a3ad&filename=new-document`,
             size: "1.8 MB",
             modified: "1 day ago",
             shared: true,
@@ -262,7 +262,7 @@ const Dashboard = () => {
 
     function uploadfile(file) {
         const filename = file.name;
-        const workspaceId = "f2f8cc21-3970-4a25-bf41-918857571645";
+        const workspaceId = "f16d491a-4a01-48d6-8987-000e8d19a3ad";
         console.log("Uploading file:", file);
         axios
             .post(`${import.meta.env.VITE_BACKEND_URL}/upload/${userId}/${workspaceId}?filename=${encodeURIComponent(filename)}`, file, {
